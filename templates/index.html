@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		{{ if .User.Username }}
+		<h2>Welcome, {{ .User.Username }}</h2>
+		<p>You are logged in</p>
+
+		<!-- TODO:logout -->
+		{{ else }}
+		<h2>Welcome to our site!</h2>
+		<p>Please <a href="./login">login</a></p>
+
+		{{ end }}
+	</body>
+</html>
