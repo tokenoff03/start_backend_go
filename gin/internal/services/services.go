@@ -1,6 +1,7 @@
 package services
 
 import (
+	"gin/internal/config"
 	"gin/internal/models"
 	"gin/internal/repositories"
 )
@@ -14,8 +15,8 @@ type Service struct {
 	Room
 }
 
-func NewServices(repository *repositories.Repository) *Service {
+func NewServices(repository *repositories.Repository, cfg *config.Config) *Service {
 	return &Service{
-		Room: NewRoomService(repository),
+		Room: NewRoomService(repository,cfg),
 	}
 }

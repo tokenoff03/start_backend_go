@@ -1,0 +1,6 @@
+http:
+  port: '5050'
+
+db:
+  url: 'postgresql://cinemakino_user:LqrK9KMsCLCwIYg7MfmGl4me1oK1BCim@dpg-csgfn0dumphs73b4t2ng-a.frankfurt-postgres.render.com/cinemakino'
+

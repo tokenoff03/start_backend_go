@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gin/internal/config"
 	"gin/internal/handler"
 	"gin/internal/repositories"
 	"gin/internal/services"
@@ -13,19 +14,23 @@ import (
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
-	url := "postgresql://cinemakino_user:LqrK9KMsCLCwIYg7MfmGl4me1oK1BCim@dpg-csgfn0dumphs73b4t2ng-a.frankfurt-postgres.render.com/cinemakino"
-	db, err := repositories.NewPostgresDB(url)
+	cfg, err := config.InitConfig("../config.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	db, err := repositories.NewPostgresDB(cfg.DB.URL)
 	if err != nil {
 		logrus.Fatal("Error from db: ", err)
 		return
 	}
 
 	repository := repositories.NewRepository(db)
-	service := services.NewServices(repository)
+	service := services.NewServices(repository, cfg)
 	handler := handler.NewHandler(service)
 
 	server := &http.Server{
-		Addr:    ":5050",
+		Addr:    ":" + cfg.Server.Port,
 		Handler: handler.InitRoutes(),
 	}
 
@@ -34,5 +39,4 @@ func main() {
 	if err := server.ListenAndServe(); err != nil {
 		logrus.Fatal(err)
 	}
-
 }
