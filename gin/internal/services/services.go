@@ -7,15 +7,15 @@ import (
 
 type Room interface {
 	GetRoomById(id int) (models.Room, error)
-	CreateRoom(room models.Room) (int, string)
+	CreateRoom(room models.RoomCreate) (int, error)
 }
 
 type Service struct {
 	Room
 }
 
-func NewServices(str *repositories.Storage) *Service {
+func NewServices(repository *repositories.Repository) *Service {
 	return &Service{
-		Room: NewRoomService(str),
+		Room: NewRoomService(repository),
 	}
 }

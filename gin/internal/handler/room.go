@@ -26,7 +26,7 @@ func (h *Handler) GetRoomById(c *gin.Context) {
 }
 
 func (h *Handler) CreateRoom(c *gin.Context) {
-	var input models.Room
+	var input models.RoomCreate
 
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -34,8 +34,8 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 	}
 
 	id, err := h.services.CreateRoom(input)
-	if err != "" {
-		newErrorResponse(c, http.StatusInternalServerError, err)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 

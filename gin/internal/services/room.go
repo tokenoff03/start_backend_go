@@ -6,17 +6,17 @@ import (
 )
 
 type RoomService struct {
-	storage *repositories.Storage
+	repo *repositories.Repository
 }
 
-func NewRoomService(str *repositories.Storage) *RoomService {
-	return &RoomService{storage: str}
+func NewRoomService(repo *repositories.Repository) *RoomService {
+	return &RoomService{repo: repo}
 }
 
 func (s *RoomService) GetRoomById(id int) (models.Room, error) {
-	return s.storage.GetRoomById(id)
+	return s.repo.GetRoomById(id)
 }
 
-func (s *RoomService) CreateRoom(room models.Room) (int, string) {
-	return s.storage.CreateRoom(room)
+func (s *RoomService) CreateRoom(room models.RoomCreate) (int, error) {
+	return s.repo.CreateRoom(room)
 }
