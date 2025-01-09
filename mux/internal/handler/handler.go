@@ -38,16 +38,19 @@ func (h *Handler) RoomHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 }
+
 func (h *Handler) GetRoomById(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/room/")
+
 	if idStr == "" {
 
 		jsonResponse(w, http.StatusBadRequest, map[string]interface{}{
 			"Error": "Missing room ID",
 		})
-		return
 
+		return
 	}
+
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		jsonResponse(w, http.StatusBadRequest, map[string]interface{}{
@@ -55,7 +58,9 @@ func (h *Handler) GetRoomById(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
+
 	room := h.storage.GetRoomById(id)
+
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
 		"room": room,
 	})
@@ -74,7 +79,7 @@ func (h *Handler) CreateRoom(w http.ResponseWriter, r *http.Request) {
 	id, ErrStr := h.storage.CreateRoom(room)
 	if ErrStr != "" {
 		jsonResponse(w, http.StatusBadRequest, map[string]interface{}{
-			"Error": "Room already exist",
+			"Error": ErrStr,
 		})
 		return
 	}
@@ -103,6 +108,7 @@ func (h *Handler) DeleteRoom(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		jsonResponse(w, http.StatusBadRequest, map[string]interface{}{
@@ -117,6 +123,7 @@ func (h *Handler) DeleteRoom(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, http.StatusBadRequest, map[string]interface{}{
 			"Error": errStr,
 		})
+		return
 	}
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{

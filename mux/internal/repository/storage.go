@@ -3,6 +3,8 @@ package repository
 import (
 	"fmt"
 	"mux/internal/models"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Storage struct {
@@ -21,7 +23,7 @@ func (s *Storage) GetRoomById(id int) models.Room {
 }
 
 func (s *Storage) CreateRoom(room models.Room) (int, string) { //пока возвращаем стринг так как мы сами создаем ошибку и отправляем ввиду строки
-	if _, exist := s.Rooms[room.Id]; exist == true {
+	if _, exist := s.Rooms[room.Id]; exist {
 		err := fmt.Sprint("Can not create room, room already exist")
 		return 0, err
 	}
@@ -40,7 +42,8 @@ func (s *Storage) GetAllRooms() []models.Room {
 }
 
 func (s *Storage) DeleteRoom(id int) (int, string) {
-	if _, exist := s.Rooms[id]; exist == true {
+	logrus.Info(id)
+	if _, exist := s.Rooms[id]; !exist {
 		err := fmt.Sprint("Can not delete room, room does not exist")
 		return 0, err
 	}

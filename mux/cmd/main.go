@@ -27,5 +27,4 @@ func main() {
 	if err := server.ListenAndServe(); err != nil {
 		logrus.Fatal(err)
 	}
-
 }
