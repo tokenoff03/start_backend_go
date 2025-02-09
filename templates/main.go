@@ -16,6 +16,7 @@ var (
 	users = map[string]string{
 		"adil": "123123",
 	}
+
 	currentUser User
 )
 
@@ -50,7 +51,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if username == "" || password == "" {
+		if username == "" && password == "" {
 			http.Error(w, "Username and Password are required", http.StatusBadRequest)
 			return
 		}
@@ -81,10 +82,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if username == "" || password == "" {
+		if username == "" && password == "" {
 			http.Error(w, "Username and Password are required", http.StatusBadRequest)
 			return
 		}
+
 		storedPassword, exist := users[username]
 		if exist && storedPassword != password {
 			http.Error(w, "Invalid password", http.StatusBadRequest)
