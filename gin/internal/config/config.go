@@ -3,16 +3,20 @@ package config
 import "github.com/ilyakaznacheev/cleanenv"
 
 type Config struct {
-	DB     DatabaseConfig `yaml:"db"`
-	Server ServerConfig   `yaml:"http"`
+	DB     DatabaseConfig `env-prefix:"PG_"`
+	Server ServerConfig   `env-prefix:"HTTP_"`
 }
 
 type DatabaseConfig struct {
-	URL string `yaml:"url"`
+	Host     string `env:"HOST"`
+	Port     string `env:"PORT"`
+	User     string `env:"USER"`
+	Password string `env:"PASSWORD"`
+	Name     string `env:"NAME"`
 }
 
 type ServerConfig struct {
-	Port string `yaml:"port"`
+	Port string `env:"PORT"`
 }
 
 func InitConfig(path string) (*Config, error) {

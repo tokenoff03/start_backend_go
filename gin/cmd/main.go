@@ -14,12 +14,12 @@ import (
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
-	cfg, err := config.InitConfig("../config.yml")
+	cfg, err := config.InitConfig("../.env")
 	if err != nil {
 		panic(err)
 	}
 
-	db, err := repositories.NewPostgresDB(cfg.DB.URL)
+	db, err := repositories.NewPostgresDB(cfg)
 	if err != nil {
 		logrus.Fatal("Error from db: ", err)
 		return

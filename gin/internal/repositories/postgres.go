@@ -1,9 +1,14 @@
 package repositories
 
-import "github.com/jmoiron/sqlx"
+import (
+	"fmt"
+	"gin/internal/config"
 
-func NewPostgresDB(urlPath string) (*sqlx.DB, error) {
+	"github.com/jmoiron/sqlx"
+)
 
+func NewPostgresDB(cfg *config.Config) (*sqlx.DB, error) {
+	urlPath := fmt.Sprintf("host=%v port=%v dbname=%v user=%v password=%v sslmode=disable", cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.User, cfg.DB.Password)
 	db, err := sqlx.Open("postgres", urlPath)
 
 	if err != nil {
