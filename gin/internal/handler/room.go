@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"database/sql"
+	"errors"
 	"gin/internal/models"
 	"net/http"
 	"strconv"
@@ -18,7 +20,11 @@ func (h *Handler) GetRoomById(c *gin.Context) {
 
 	room, err := h.services.GetRoomById(id)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		if errors.Is(err, sql.ErrNoRows) {
+			newErrorResponse(c, http.StatusNotFound, "room not found")
+		} else {
+			newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 

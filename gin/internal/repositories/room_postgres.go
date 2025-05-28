@@ -15,14 +15,14 @@ func NewRoomPostgres(db *sqlx.DB) *RoomPostgres {
 	return &RoomPostgres{db: db}
 }
 
-func (r *RoomPostgres) GetRoomById(id int) (models.Room, error) {
-	var room models.Room
+func (r *RoomPostgres) GetRoomById(id int) (*models.Room, error) {
+	var room *models.Room
 
 	query := fmt.Sprintf("SELECT r.id, r.number, r.type, r.description FROM %s r WHERE r.id=$1", "room")
-	err := r.db.Get(&room, query, id)
+	err := r.db.Get(room, query, id)
 
 	if err != nil {
-		return room, err
+		return nil, err
 	}
 
 	return room, nil

@@ -18,7 +18,7 @@ func NewRoomService(repo *repositories.Repository, cfg *config.Config) *RoomServ
 	}
 }
 
-func (s *RoomService) GetRoomById(id int) (models.Room, error) {
+func (s *RoomService) GetRoomById(id int) (*models.Room, error) {
 	return s.repo.GetRoomById(id)
 }
 

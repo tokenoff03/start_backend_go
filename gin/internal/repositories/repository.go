@@ -7,7 +7,7 @@ import (
 )
 
 type Room interface {
-	GetRoomById(id int) (models.Room, error)
+	GetRoomById(id int) (*models.Room, error)
 	CreateRoom(room models.RoomCreate) (int, error)
 }
 
